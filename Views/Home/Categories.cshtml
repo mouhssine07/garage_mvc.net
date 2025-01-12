@@ -1,0 +1,45 @@
+﻿@model List<Category>
+
+
+
+<!-- Services Section -->
+<section id="services" class="services section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Categories</h2>
+        <p>Discover a diverse range of categories tailored to suit your lifestyle. From trendy fashion to essential gadgets, explore everything you need in one place.</p>
+    </div><!-- End Section Title -->
+
+
+    <div class="container">
+
+        <div class="row gy-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div   class="service-item d-flex">
+                        <div class="icon flex-shrink-0">
+                            <i class="@item.Photo"></i>
+                        </div>
+                        <div>
+                            <h4 class="title" style="font-size: 1.5rem; font-weight: bold; color: #333;">
+                                <a id="products-link" href="/#services" class="stretched-link" style="text-decoration: none; color: inherit;">@item.Name</a>
+                            </h4>
+                            <p class="description">
+                                @item.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- End Service Item -->
+
+
+
+        </div>
+
+    </div>
+
+</section><!-- /Services Section -->
