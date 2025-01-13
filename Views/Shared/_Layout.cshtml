@@ -25,6 +25,7 @@
     <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
+    <link href="~/assets/css/StyleLayout.css" rel="stylesheet">
     <link href="~/assets/css/main.css" rel="stylesheet">
 
     <!-- =======================================================
@@ -48,6 +49,25 @@
             </a>
 
             <nav id="navmenu" class="navmenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin Panel
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="AddProduct">Add Product</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="DeleteProduct">Delete Product</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="AddCategory">Add Category</a></li>
+                                <li class="nav-item">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="DeleteCategory">Delete Category</a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                </ul>
                 <ul>
                     <li><a id="products-link" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a id="categories-link" asp-controller="Home" asp-action="Categories">Categories</a></li>
@@ -203,6 +223,29 @@
         window.addEventListener('load', function () {
             if (window.location.hash) {
                 document.querySelector(window.location.hash).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+                document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    dropdownMenu.classList.toggle('show');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
             }
         });
     </script>

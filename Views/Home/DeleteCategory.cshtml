@@ -1,0 +1,133 @@
+﻿@model IEnumerable<garage.Models.Category>
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="delete-categories-container">
+    <h2>Delete Category</h2>
+    @if (Model.Any())
+    {
+        <table class="table category-table">
+            <thead>
+                <tr>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                    <th>Photo</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Name</td>
+                        <td>@category.Photo</td>
+                        <td>@category.Description</td>
+                        <td>
+                            <form asp-action="DeleteCategory" method="post">
+                                <input type="hidden" name="id" value="@category.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="no-categories">
+            No categories available to delete.
+        </div>
+    }
+</div>
+
+<style>
+    /* Delete Categories Page Container */
+    .delete-categories-container {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(110, 56, 198, 0.3);
+        border-top: 4px solid #6E41D9;
+    }
+
+    h2 {
+        color: #6E41D9;
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(110, 65, 217, 0.1);
+    }
+
+    /* Table Styles */
+    .category-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+    }
+
+        .category-table th {
+            background-color: #6E41D9;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .category-table th:first-child {
+                border-top-left-radius: 8px;
+            }
+
+            .category-table th:last-child {
+                border-top-right-radius: 8px;
+            }
+
+        .category-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(110, 65, 217, 0.1);
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .category-table tbody tr:hover {
+            background-color: rgba(110, 65, 217, 0.05);
+        }
+
+    /* Delete Button */
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+
+    /* Empty state */
+    .no-categories {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-style: italic;
+    }
+</style>

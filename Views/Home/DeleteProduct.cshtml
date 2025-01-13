@@ -1,0 +1,153 @@
+﻿@model IEnumerable<garage.Models.Product>
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="delete-products-container">
+    <h2>Delete Product</h2>
+    @if (Model.Any())
+    {
+        <table class="table product-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td>@($"${product.Price:N2}")</td>
+                        <td>@product.Catid</td>
+                        <td>
+                            <form asp-action="DeleteProduct" method="post">
+                                <input type="hidden" name="id" value="@product.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="no-products">
+            No products available to delete.
+        </div>
+    }
+</div>
+
+<style>
+    /* Delete Products Page Container */
+    .delete-products-container {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(110, 56, 198, 0.3);
+        border-top: 4px solid #6E41D9;
+    }
+
+    h2 {
+        color: #6E41D9;
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(110, 65, 217, 0.1);
+    }
+
+    /* Table Styles */
+    .product-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+    }
+
+        .product-table th {
+            background-color: #6E41D9;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .product-table th:first-child {
+                border-top-left-radius: 8px;
+            }
+
+            .product-table th:last-child {
+                border-top-right-radius: 8px;
+            }
+
+        .product-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(110, 65, 217, 0.1);
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .product-table tbody tr:hover {
+            background-color: rgba(110, 65, 217, 0.05);
+        }
+
+        /* Price Column */
+        .product-table td:nth-child(3) {
+            font-weight: 600;
+            color: #227E64;
+        }
+
+    /* Delete Button */
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+
+    /* Responsive text truncation */
+    .product-table td {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+        /* Description column can wrap */
+        .product-table td:nth-child(2) {
+            white-space: normal;
+            line-height: 1.4;
+        }
+
+    /* Empty state */
+    .no-products {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-style: italic;
+    }
+</style>

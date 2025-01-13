@@ -13,7 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICartService, CartService>();
 
@@ -49,6 +51,17 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ApplicationDbContext>();
     var logger = services.GetRequiredService<ILogger<Program>>();
 
+    var RoleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var role = new[] { "Admin","Manager" ,"User" };
+
+    foreach (var item in role)
+    {
+        if (!RoleManager.RoleExistsAsync(item).Result)
+        {
+            RoleManager.CreateAsync(new IdentityRole(item)).Wait();
+        }
+    }
+
     try
     {
         context.Database.Migrate();
@@ -61,4 +74,20 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    String email = "admin@admin.com";
+    String password = "Admin@123";
+
+    if (await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new IdentityUser { UserName = email, Email = email };
+        var result = await userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
+}
 app.Run();

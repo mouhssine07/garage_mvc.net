@@ -82,5 +82,89 @@ namespace garage.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddProduct()
+        {
+            var categories = _context.Categories.ToList();
+            ViewBag.Categories = categories;
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            var categories = _context.Categories.ToList();
+            ViewBag.Categories = categories;
+            return View(product);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteProduct()
+        {
+            var products = await _context.Products.ToListAsync();
+            return View(products);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("DeleteProduct");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCategory(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AddProduct");
+            }
+            return View(category);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCategory()
+        {
+            var categories = await _context.Categories.ToListAsync();
+            return View(categories);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("DeleteCategory");
+        }
+
     }
 }

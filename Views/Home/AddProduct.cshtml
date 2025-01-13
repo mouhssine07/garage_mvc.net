@@ -1,0 +1,182 @@
+﻿@model garage.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+    var categories = ViewBag.Categories as List<garage.Models.Category>;
+}
+
+<div class="container">
+    <div class="form-section">
+        <h2>Add Product</h2>
+        <form asp-action="AddProduct" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Catid"></label>
+        <input asp-for="Catid" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Photo"></label>
+        <input asp-for="Photo" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Product</button>
+</form>
+    </div>
+
+
+    <div class="table-section">
+        <h3>Existing Categories</h3>
+        <table class="table">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Category Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in categories)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+            </tr>
+        }
+    </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 30px;
+    }
+
+    /* Left section - Add Product Form */
+    .form-section {
+        flex: 0 0 45%;
+        padding: 25px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(110, 56, 198, 0.3);
+        border-top: 4px solid #227E64;
+    }
+
+    h2 {
+        color: #6E41D9;
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #227E64;
+        font-weight: 500;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6E38C6;
+            box-shadow: 0 0 0 3px rgba(110, 65, 217, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #227E64;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #1a6b53;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 126, 100, 0.3);
+        }
+
+    /* Right section - Existing Categories Table */
+    .table-section {
+        flex: 0 0 45%;
+        padding: 25px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(110, 56, 198, 0.3);
+        border-top: 4px solid #6E41D9;
+    }
+
+    h3 {
+        color: #6E41D9;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table th,
+        .table td {
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #6E41D9;
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .table td {
+            border-bottom: 1px solid rgba(110, 65, 217, 0.1);
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(110, 65, 217, 0.05);
+        }
+</style>
