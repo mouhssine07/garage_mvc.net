@@ -214,7 +214,7 @@
                 }).then(response => {
                     if (response.ok) {
                         alert('Cart saved successfully');
-                        location.reload();
+                        window.location.href = '/checkout/index';
                     } else {
                         alert('Failed to save cart');
                     }

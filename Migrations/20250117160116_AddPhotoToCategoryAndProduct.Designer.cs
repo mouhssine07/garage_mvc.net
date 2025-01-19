@@ -9,11 +9,11 @@ using garage.Areas.Identity.Data;
 
 #nullable disable
 
-namespace garage.Data.Migrations
+namespace garage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250112204531_AddUserNameToCart")]
-    partial class AddUserNameToCart
+    [Migration("20250117160116_AddPhotoToCategoryAndProduct")]
+    partial class AddPhotoToCategoryAndProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

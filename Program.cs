@@ -1,5 +1,4 @@
 using garage.Areas.Identity.Data;
-using garage.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,6 +17,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<DataSeeder>();
 
 var app = builder.Build();
 
@@ -50,22 +50,23 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
     var logger = services.GetRequiredService<ILogger<Program>>();
+    var dataSeeder = services.GetRequiredService<DataSeeder>();
 
-    var RoleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var role = new[] { "Admin","Manager" ,"User" };
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "Manager", "User" };
 
-    foreach (var item in role)
+    foreach (var role in roles)
     {
-        if (!RoleManager.RoleExistsAsync(item).Result)
+        if (!roleManager.RoleExistsAsync(role).Result)
         {
-            RoleManager.CreateAsync(new IdentityRole(item)).Wait();
+            roleManager.CreateAsync(new IdentityRole(role)).Wait();
         }
     }
 
     try
     {
         context.Database.Migrate();
-        context.SeedData();
+        dataSeeder.SeedData();
         logger.LogInformation("Database migration and seeding completed successfully.");
     }
     catch (Exception ex)
@@ -77,8 +78,8 @@ using (var scope = app.Services.CreateScope())
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-    String email = "admin@admin.com";
-    String password = "Admin@123";
+    string email = "admin@admin.com";
+    string password = "Admin@123";
 
     if (await userManager.FindByEmailAsync(email) == null)
     {
@@ -90,4 +91,5 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
 app.Run();

@@ -57,28 +57,5 @@ namespace garage.Areas.Identity.Data
             });
         }
 
-        public void SeedData()
-        {
-            if (!Categories.Any())
-            {
-                Categories.AddRange(
-                    new Category { Id = 1, Name = "Electronics", Description = "Electronic items" },
-                    new Category { Id = 2, Name = "Books", Description = "Books and literature" },
-                    new Category { Id = 3, Name = "Clothing", Description = "Apparel and accessories" }
-                );
-            }
-
-            if (!Products.Any())
-            {
-                Products.AddRange(
-                    new Product { Id = 1, Name = "Laptop", Description = "A high-performance laptop", Price = 999.99m, Catid = 1, Photo = "laptop.jpg" },
-                    new Product { Id = 2, Name = "Smartphone", Description = "A latest model smartphone", Price = 699.99m, Catid = 1, Photo = "smartphone.jpg" },
-                    new Product { Id = 3, Name = "Novel", Description = "A best-selling novel", Price = 19.99m, Catid = 2, Photo = "novel.jpg" },
-                    new Product { Id = 4, Name = "T-Shirt", Description = "A comfortable t-shirt", Price = 9.99m, Catid = 3, Photo = "tshirt.jpg" }
-                );
-            }
-
-            SaveChanges();
-        }
     }
 }
